@@ -23,7 +23,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.squareup.picasso.Picasso;
 
 import br.com.vanilson.bakingapp.model.StepModel;
 
@@ -65,21 +64,10 @@ public class StepFragment extends Fragment {
         mStepTitleTv.setText(mStep.getShortDescription());
         mStepDescTv.setText(mStep.getDescription());
 
-        if (!mStep.getThumbnailURL().isEmpty()) {
-            try {
-                String thumbUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8UIqvyoZiJ-HJNhG-LGyhfS7piqarC3fI13RadIJpo3cy8amToQ"; //mStep.getThumbnailURL()
-                mPlayerView.setDefaultArtwork(Picasso.with(getContext()).load(thumbUrl).get());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (!mStep.getVideoURL().isEmpty()) {
-            try{
-                initializePlayer(getContext(), Uri.parse(mStep.getVideoURL()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            initializePlayer(getContext(), Uri.parse(mStep.getVideoURL()));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
@@ -90,27 +78,26 @@ public class StepFragment extends Fragment {
 
     private void initializePlayer(Context context, Uri mediaUri) {
         if (mExoPlayer == null) {
-            // Create an instance of the ExoPlayer.
+
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector, loadControl);
             mPlayerView.setPlayer(mExoPlayer);
 
-            // Set the ExoPlayer.EventListener to this activity.
-//            mExoPlayer.addListener(this);
+            if(!mediaUri.toString().isEmpty()){
+                String userAgent = Util.getUserAgent(context, "BakingApp");
+                MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
+                        context, userAgent), new DefaultExtractorsFactory(), null, null);
+                mExoPlayer.prepare(mediaSource);
+                mExoPlayer.setPlayWhenReady(true);
+            }
 
-            // Prepare the MediaSource.
-            String userAgent = Util.getUserAgent(context, "BakingApp");
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
-                    context, userAgent), new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
         }
     }
 
 
     private void releasePlayer() {
-        if(mExoPlayer != null){
+        if (mExoPlayer != null) {
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
