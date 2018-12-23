@@ -1,6 +1,7 @@
 package br.com.vanilson.bakingapp.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import br.com.vanilson.bakingapp.DetailActivity;
 import br.com.vanilson.bakingapp.R;
 
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesAdapterViewHolder> {
@@ -72,7 +74,9 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
 
         @Override
         public void onClick(View view) {
-
+            Intent intent = new Intent(mContext, DetailActivity.class);
+            intent.putExtra(DetailActivity.RECIPES_DETAIL_KEY, recipes.get(getAdapterPosition()));
+            mContext.startActivity(intent);
         }
     }
 }
