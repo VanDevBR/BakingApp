@@ -41,7 +41,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
                     .centerCrop()
                     .into(holder.mRecipeImageView);
         } else {
-            holder.mRecipeImageView.setImageResource(R.drawable.no_picture);
+            holder.mRecipeImageView.setImageResource(R.drawable.recipe_icon);
         }
         holder.mRecipeTextView.setText(recipes.get(position).getName());
     }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.vanilson.bakingapp.MasterDetailListFragment;
 import br.com.vanilson.bakingapp.R;
 import br.com.vanilson.bakingapp.StepActivity;
 
@@ -19,6 +20,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepsAdapterVi
 
     ArrayList<StepModel> steps;
     Context mContext;
+
+    MasterDetailListFragment.OnStepClickListener mCallback;
+
+    public void setCallback(MasterDetailListFragment.OnStepClickListener mCallback) {
+        this.mCallback = mCallback;
+    }
 
     @NonNull
     @Override
@@ -31,8 +38,16 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepsAdapterVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StepAdapter.StepsAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StepAdapter.StepsAdapterViewHolder holder, final int position) {
         holder.mStepTextView.setText(steps.get(position).getShortDescription());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mCallback != null) {
+                    mCallback.onStepClicked(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -50,21 +65,15 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepsAdapterVi
         return steps;
     }
 
-    public class StepsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class StepsAdapterViewHolder extends RecyclerView.ViewHolder {
         public final TextView mStepTextView;
 
         public StepsAdapterViewHolder(View view) {
             super(view);
             mStepTextView = view.findViewById(R.id.step_item_tv);
-            view.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(mContext, StepActivity.class);
-            intent.putParcelableArrayListExtra(StepActivity.STEP_DETAIL_KEY, steps);
-            intent.putExtra(StepActivity.STEP_POSITION_KEY, getAdapterPosition());
-            mContext.startActivity(intent);
-        }
     }
+
+
 }

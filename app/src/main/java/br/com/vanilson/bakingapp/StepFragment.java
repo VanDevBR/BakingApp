@@ -1,6 +1,7 @@
 package br.com.vanilson.bakingapp;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -49,7 +50,14 @@ public class StepFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_step, container, false);
+        int screenLayout = R.layout.fragment_step;
+        int orientation = getResources().getConfiguration().orientation;
+        if (!getResources().getBoolean(R.bool.isTablet) && orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            screenLayout = R.layout.fragment_step_land;
+        }
+
+
+        final View rootView = inflater.inflate(screenLayout, container, false);
         mStepTitleTv = rootView.findViewById(R.id.step_title);
         mStepDescTv = rootView.findViewById(R.id.step_desc);
         mPlayerView = rootView.findViewById(R.id.playerView);

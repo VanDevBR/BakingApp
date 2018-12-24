@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,8 @@ public class MasterDetailListFragment extends Fragment {
 
     public MasterDetailListFragment(){}
 
+    OnStepClickListener mCallback;
+
     private RecipeModel mRecipe;
     private RecyclerView mRecyclerView;
     private LinearLayout mIngredientsLl;
@@ -31,6 +34,12 @@ public class MasterDetailListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof OnStepClickListener) {
+            mCallback = (OnStepClickListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnStepClickListener");
+        }
     }
 
     @Nullable
@@ -66,6 +75,12 @@ public class MasterDetailListFragment extends Fragment {
         }
 
         mStepAdapter.setSteps(mRecipe.getSteps());
+        mStepAdapter.setCallback(new OnStepClickListener() {
+            @Override
+            public void onStepClicked(int position) {
+                mCallback.onStepClicked(position);
+            }
+        });
         mRecyclerView.setAdapter(mStepAdapter);
 
         return rootView;
@@ -73,5 +88,9 @@ public class MasterDetailListFragment extends Fragment {
 
     }
 
+
+    public interface OnStepClickListener {
+        void onStepClicked(int position);
+    }
 
 }

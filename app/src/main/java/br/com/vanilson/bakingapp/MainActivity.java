@@ -1,9 +1,11 @@
 package br.com.vanilson.bakingapp;
 
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -34,7 +36,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.rv_recipes);
         mRecipesAdapter = new RecipesAdapter();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        if(getResources().getBoolean(R.bool.isTablet)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            layoutManager = new GridLayoutManager(this, 3);
+        }
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
@@ -42,7 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             List<RecipeModel> recipes = savedInstanceState.getParcelableArrayList(RECIPES_KEY);
-            mRecipesAdapter.setRecipes(recipes);
+            if(recipes == null){
+                loadRecipes();
+            }else {
+                mRecipesAdapter.setRecipes(recipes);
+            }
         } else {
             loadRecipes();
         }
