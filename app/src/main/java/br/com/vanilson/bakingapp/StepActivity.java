@@ -32,6 +32,8 @@ public class StepActivity extends AppCompatActivity {
         nextBt = findViewById(R.id.bt_next);
         prevBt = findViewById(R.id.bt_prev);
 
+        getSupportActionBar().setTitle("How to...");
+
         nextBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,13 +54,22 @@ public class StepActivity extends AppCompatActivity {
             mSteps = self.getParcelableArrayListExtra(STEP_DETAIL_KEY);
             position = self.getIntExtra(STEP_POSITION_KEY, 0);
 
-            getSupportActionBar().setTitle("How to...");
-
-            showStep();
-
+        } else {
+            mSteps = savedInstanceState.getParcelableArrayList(STEP_DETAIL_KEY);
+            position = savedInstanceState.getInt(STEP_POSITION_KEY, 0);
         }
 
+        showStep();
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mSteps != null && !mSteps.isEmpty()){
+            outState.putParcelableArrayList(STEP_DETAIL_KEY, mSteps);
+            outState.putInt(STEP_POSITION_KEY, position);
+        }
     }
 
     private void nextStep(){

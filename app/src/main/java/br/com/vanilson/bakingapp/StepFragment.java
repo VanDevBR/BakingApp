@@ -61,8 +61,10 @@ public class StepFragment extends Fragment {
         }
 
         mStep = bundle.getParcelable(STEP_DETAIL_KEY);
-        mStepTitleTv.setText(mStep.getShortDescription());
-        mStepDescTv.setText(mStep.getDescription());
+        if(mStepTitleTv != null && mStepDescTv != null) {
+            mStepTitleTv.setText(mStep.getShortDescription());
+            mStepDescTv.setText(mStep.getDescription());
+        }
 
         try {
             initializePlayer(getContext(), Uri.parse(mStep.getVideoURL()));
