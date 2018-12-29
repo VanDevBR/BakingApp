@@ -67,7 +67,12 @@ public class MainActivity extends AppCompatActivity {
         if(NetworkUtils.isNetworkAvailable(this)){
             new RecipeNetworkTasks().execute();
         } else {
-            Toast.makeText(this, R.string.offline_toast, Toast.LENGTH_SHORT).show();
+            List<RecipeModel> recipes = PreferenceUtil.loadRecipes(this);
+            if(recipes != null && recipes.size() > 0){
+                mRecipesAdapter.setRecipes(recipes);
+            }else{
+                Toast.makeText(this, R.string.offline_toast, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(List<RecipeModel> recipeModels) {
             super.onPostExecute(recipeModels);
             if(recipeModels.isEmpty()){
-                //todo error message
+                Toast.makeText(getApplicationContext(), R.string.notfound_toast, Toast.LENGTH_SHORT).show();
             } else {
                 mRecipesAdapter.setRecipes(recipeModels);
             }

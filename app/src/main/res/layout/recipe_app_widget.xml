@@ -26,7 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:src="@drawable/ic_pencil" />
+                android:src="@drawable/ic_pencil"
+                android:contentDescription="TODO" />
 
             <TextView
                 android:id="@+id/recipe_name_tv"

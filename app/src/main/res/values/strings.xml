@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Baking App</string>
     <string name="offline_toast">Offline, Check your internet connection!</string>
+    <string name="notfound_toast">No itens found, try again later!</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 </resources>
