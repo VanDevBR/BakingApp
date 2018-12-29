@@ -1,10 +1,11 @@
 package br.com.vanilson.bakingapp;
 
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,15 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.vanilson.bakingapp.model.RecipeModel;
-import br.com.vanilson.bakingapp.utils.NetworkUtils;
 import br.com.vanilson.bakingapp.model.RecipesAdapter;
+import br.com.vanilson.bakingapp.utils.NetworkUtils;
+import br.com.vanilson.bakingapp.widget.PreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecipesAdapter mRecipesAdapter;
 
-    private static String RECIPES_KEY = "recipes";
+    public static String RECIPES_KEY = "recipes";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
                         (List<RecipeModel>) new Gson().fromJson(resp, new TypeToken<List<RecipeModel>>() {}.getType())
                 );
 
+                SharedPreferences preferences = getSharedPreferences(PreferenceUtil.PREF_KEY, getApplicationContext().MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(PreferenceUtil.PREF_NAME, resp);
+                editor.apply();
 
             } catch (Exception e) {
                 e.printStackTrace();
