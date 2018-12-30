@@ -7,7 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +42,20 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepsAdapterVi
 
     @Override
     public void onBindViewHolder(@NonNull StepAdapter.StepsAdapterViewHolder holder, final int position) {
-        holder.mStepTextView.setText(steps.get(position).getShortDescription());
+        StepModel step = steps.get(position);
+        holder.mStepTextView.setText(step.getShortDescription());
+
+        if(step.getThumbnailURL() != null && !step.getThumbnailURL().isEmpty()){
+            Picasso.with(mContext)
+                    .load(step.getThumbnailURL())
+                    .error(R.drawable.no_picture)
+                    .into(holder.mStepImageView);
+        } else {
+            Picasso.with(mContext)
+                    .load(R.drawable.no_picture)
+                    .into(holder.mStepImageView);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,10 +83,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepsAdapterVi
 
     public class StepsAdapterViewHolder extends RecyclerView.ViewHolder {
         public final TextView mStepTextView;
+        public final ImageView mStepImageView;
 
         public StepsAdapterViewHolder(View view) {
             super(view);
             mStepTextView = view.findViewById(R.id.step_item_tv);
+            mStepImageView = view.findViewById(R.id.step_item_iv);
         }
 
     }
