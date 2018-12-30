@@ -8,27 +8,31 @@
 
     <TextView
         android:id="@+id/step_item_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="@+id/step_item_iv"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/step_item_iv"
         app:layout_constraintTop_toTopOf="@+id/step_item_iv"
-        tools:text="Item 1" />
+        app:layout_constraintVertical_bias="0.506"
+        tools:text="Press the crust into baking form." />
 
     <ImageView
         android:id="@+id/step_item_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
         android:adjustViewBounds="true"
+        android:contentDescription="TODO"
         android:maxWidth="100dp"
         android:maxHeight="100dp"
         android:src="@drawable/no_picture"
         android:tint="@android:color/holo_green_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="TODO" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

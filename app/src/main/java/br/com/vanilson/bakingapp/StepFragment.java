@@ -119,4 +119,10 @@ public class StepFragment extends Fragment {
         releasePlayer();
         super.onDestroy();
     }
+
+    @Override
+    public void onStop() {
+        releasePlayer();
+        super.onStop();
+    }
 }

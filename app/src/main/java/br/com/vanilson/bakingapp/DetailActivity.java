@@ -46,8 +46,6 @@ public class DetailActivity extends AppCompatActivity implements MasterDetailLis
 
         if(isTablet){
 
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
             StepFragment stepFragment = new StepFragment();
             Bundle stepBundle = new Bundle();
             stepBundle.putParcelable(STEP_DETAIL_KEY, mRecipe.getSteps().get(0));
