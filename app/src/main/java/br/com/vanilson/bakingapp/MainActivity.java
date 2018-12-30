@@ -1,7 +1,5 @@
 package br.com.vanilson.bakingapp;
 
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -9,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String resp = NetworkUtils.requestHttpUrl(new URL(NetworkUtils.RECIPES_URL));
 
-                if(resp == null || resp.isEmpty()){
+                if(TextUtils.isEmpty(resp)){
                     return null;
                 }
 
@@ -102,10 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         (List<RecipeModel>) new Gson().fromJson(resp, new TypeToken<List<RecipeModel>>() {}.getType())
                 );
 
-                SharedPreferences preferences = getSharedPreferences(PreferenceUtil.PREF_KEY, getApplicationContext().MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString(PreferenceUtil.PREF_NAME, resp);
-                editor.apply();
+                PreferenceUtil.saveRecipe(getApplicationContext(), resp);
 
             } catch (Exception e) {
                 e.printStackTrace();

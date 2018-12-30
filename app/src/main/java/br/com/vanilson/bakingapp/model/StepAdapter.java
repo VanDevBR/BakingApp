@@ -1,9 +1,9 @@
 package br.com.vanilson.bakingapp.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +17,6 @@ import java.util.List;
 
 import br.com.vanilson.bakingapp.MasterDetailListFragment;
 import br.com.vanilson.bakingapp.R;
-import br.com.vanilson.bakingapp.StepActivity;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepsAdapterViewHolder> {
 
@@ -45,7 +44,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepsAdapterVi
         StepModel step = steps.get(position);
         holder.mStepTextView.setText(step.getShortDescription());
 
-        if(step.getThumbnailURL() != null && !step.getThumbnailURL().isEmpty()){
+        if(!TextUtils.isEmpty(step.getThumbnailURL())){
             Picasso.with(mContext)
                     .load(step.getThumbnailURL())
                     .error(R.drawable.no_picture)

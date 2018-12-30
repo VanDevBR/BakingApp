@@ -19,21 +19,24 @@ public class RecipeAppWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_app_widget);
+        RecipeModel recipeModel = PreferenceUtil.loadWidgedRecipe(context);
 
-        RecipeModel recipeModel = PreferenceUtil.loadRecipes(context).get(0);
+        if(recipeModel != null){
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_app_widget);
 
-        views.setTextViewText(R.id.recipe_name_tv, recipeModel.getName());
-        views.setOnClickPendingIntent(R.id.recipe_name_tv, pendingIntent);
+            views.setTextViewText(R.id.recipe_name_tv, recipeModel.getName());
+            views.setOnClickPendingIntent(R.id.recipe_name_tv, pendingIntent);
 
-        Intent intent = new Intent(context, IngredientsWidgetService.class);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            Intent intent = new Intent(context, IngredientsWidgetService.class);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
-        views.setRemoteAdapter(R.id.ingredients_lv, intent);
+            views.setRemoteAdapter(R.id.ingredients_lv, intent);
 
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.ingredients_lv);
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.ingredients_lv);
+        }
+
     }
 
     @Override

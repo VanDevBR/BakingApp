@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import br.com.vanilson.bakingapp.model.RecipeModel;
+import br.com.vanilson.bakingapp.widget.IngredientsWidgetService;
 
 import static br.com.vanilson.bakingapp.StepActivity.STEP_DETAIL_KEY;
 
@@ -87,5 +92,23 @@ public class DetailActivity extends AppCompatActivity implements MasterDetailLis
         if(mRecipe != null){
             outState.putParcelable(STEP_DETAIL_KEY, mRecipe);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_add_to_widget) {
+            IngredientsWidgetService.updateWidget(this, mRecipe);
+            Toast.makeText(this, String.format(getString(R.string.widget_added), mRecipe.getName()), Toast.LENGTH_SHORT).show();
+            return true;
+        } else
+            return super.onOptionsItemSelected(item);
     }
 }
