@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import java.util.List;
+
 import br.com.vanilson.bakingapp.MainActivity;
 import br.com.vanilson.bakingapp.R;
 import br.com.vanilson.bakingapp.model.RecipeModel;
@@ -20,6 +22,11 @@ public class RecipeAppWidget extends AppWidgetProvider {
                                 int appWidgetId) {
 
         RecipeModel recipeModel = PreferenceUtil.loadWidgedRecipe(context);
+
+        if (recipeModel == null){
+            List<RecipeModel> recipes = PreferenceUtil.loadRecipes(context);
+            recipeModel = recipes != null && recipes.size() > 0 ? recipes.get(0) : null;
+        }
 
         if(recipeModel != null){
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);

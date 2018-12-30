@@ -2,6 +2,7 @@ package br.com.vanilson.bakingapp.widget;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -20,7 +21,7 @@ public class PreferenceUtil {
     public static List<RecipeModel> loadRecipes(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         String resp = prefs.getString(PREF_NAME, "");
-        if(resp == null){
+        if(TextUtils.isEmpty(resp)){
             Log.e("PreferenceUtil", "Not recipe found on preference");
             return null;
         }

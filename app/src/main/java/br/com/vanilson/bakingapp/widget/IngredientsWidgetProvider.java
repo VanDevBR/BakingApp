@@ -26,8 +26,14 @@ public class IngredientsWidgetProvider implements RemoteViewsService.RemoteViews
 
     @Override
     public void onDataSetChanged() {
-        List<RecipeModel> recipes = PreferenceUtil.loadRecipes(mContext);
-        ingredients = recipes.get(0).getIngredients();
+        RecipeModel recipe = PreferenceUtil.loadWidgedRecipe(mContext);
+        if(recipe == null){
+            recipe = PreferenceUtil.loadRecipes(mContext).get(0);
+        }
+        if(recipe != null){
+            ingredients = recipe.getIngredients();
+        }
+
     }
 
     @Override
