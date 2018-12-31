@@ -54,12 +54,13 @@ public class StepActivity extends AppCompatActivity {
             mSteps = self.getParcelableArrayListExtra(STEP_DETAIL_KEY);
             position = self.getIntExtra(STEP_POSITION_KEY, 0);
 
+            showStep();
         } else {
             mSteps = savedInstanceState.getParcelableArrayList(STEP_DETAIL_KEY);
             position = savedInstanceState.getInt(STEP_POSITION_KEY, 0);
         }
 
-        showStep();
+
 
     }
 
