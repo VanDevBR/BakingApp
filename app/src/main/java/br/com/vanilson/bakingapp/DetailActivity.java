@@ -48,7 +48,7 @@ public class DetailActivity extends AppCompatActivity implements MasterDetailLis
                 .add(R.id.master_list_fragment, detailListFragment)
                 .commit();
 
-        if(isTablet){
+        if(isTablet && savedInstanceState == null){
 
             StepFragment stepFragment = new StepFragment();
             Bundle stepBundle = new Bundle();
